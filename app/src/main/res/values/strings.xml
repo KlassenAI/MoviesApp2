@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Movies App</string>
+    <string name="title_search">Search</string>
+    <string name="title_home">Home</string>
+    <string name="title_wishlist">Wishlist</string>
+    <string name="api_key">aa</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_to_favorites">ADD TO FAVORITES</string>
+    <string name="in_favorites">IN FAVORITES</string>
+</resources>

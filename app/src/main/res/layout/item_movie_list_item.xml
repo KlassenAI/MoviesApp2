@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.android.moviesapp.model.ItemMovie" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/item_movie_mark_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true"
+                bind:visibility="@{item.favorite ? android.view.View.VISIBLE : android.view.View.GONE }"
+                android:src="@drawable/ic_baseline_bookmark_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/movie_image_card_item"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                bind:posterPath="@{item.movie.posterPath}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/movie_image_card_item"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/movie_title_card_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Default Title"
+                    bind:text="@{item.movie.title}" />
+
+                <TextView
+                    android:id="@+id/movie_release_date_card_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Default Release Date"
+                    bind:text="@{item.movie.releaseDate}" />
+
+                <TextView
+                    android:id="@+id/movie_genres_list_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Default Genres"
+                    bind:text="@{com.android.moviesapp.model.GenreIdsBindingAdapter.fromGenreIds(item.movie.genreIds)}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    bind:visibility="@{(item.movie.voteAverage > 0) ? android.view.View.VISIBLE : android.view.View.GONE}"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_star_24" />
+
+                    <TextView
+                        android:id="@+id/movie_vote_average_card_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="4dp"
+                        bind:text="@{Double.toString(item.movie.voteAverage)}"
+                        android:text="0.0" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
