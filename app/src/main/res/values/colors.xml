@@ -9,4 +9,8 @@
     <color name="green">#008000</color>
     <color name="red">#FF0000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimaryLight">#1e88e5</color>
+    <color name="colorPrimaryVariantLight">#005cb2</color>
+    <color name="colorTextColorLight">#000</color>
+    <color name="colorTextColorDark">#FFF</color>
 </resources>

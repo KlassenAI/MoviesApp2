@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.moviesapp.R
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
-abstract class SwipeHelper(val context: Context?, dragDir: Int, swipeDir: Int) :
+abstract class SwipeToSideHelper(val context: Context, dragDir: Int, swipeDir: Int) :
     ItemTouchHelper.SimpleCallback(dragDir, swipeDir) {
-    
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 
@@ -19,10 +21,10 @@ abstract class SwipeHelper(val context: Context?, dragDir: Int, swipeDir: Int) :
                              dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
 
         RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                .addSwipeRightBackgroundColor(ContextCompat.getColor(context!!, R.color.green))
-                .addSwipeRightActionIcon(R.drawable.ic_outline_done_24)
+                .addSwipeRightBackgroundColor(ContextCompat.getColor(context, R.color.green))
+                .addSwipeRightActionIcon(R.drawable.ic_heart_fill_24)
                 .addSwipeLeftBackgroundColor(ContextCompat.getColor(context, R.color.red))
-                .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_24)
+                .addSwipeLeftActionIcon(R.drawable.ic_delete)
                 .create()
                 .decorate()
 

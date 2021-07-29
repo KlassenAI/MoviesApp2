@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
-open interface MovieApiService {
+interface MovieApiService {
 
     @GET("movie/popular")
     fun getPopularMovies(@Query("api_key") apiKey: String): Call<MovieResponse>
@@ -20,34 +20,21 @@ open interface MovieApiService {
 
     @GET("search/movie")
     fun getSearchMovies(@Query("api_key") apiKey: String,
-                        @Query("query") query: String) : Call<MovieResponse>
-
-
-    @GET("search/movie")
-    suspend fun getSearch(
-            @Query("api_key") apiKey: String,
-            @Query("query") query: String,
-            @Query("page") page: Long
-    ): MovieResponse
+                        @Query("query") query: String): Call<MovieResponse>
 
     @GET("search/movie")
-    suspend fun getSearch(@QueryMap map: HashMap<String, String>): MovieResponse
+    suspend fun getSearchMovies(@QueryMap map: Map<String, String>): Response<MovieResponse>
 
     @GET("movie/popular")
-    suspend fun getPopular(
-            @Query("api_key") apiKey: String,
-            @Query("page") page: Long
-    ): MovieResponse
-
-    @GET("movie/upcoming")
-    suspend fun getUpcoming(
-            @Query("api_key") apiKey: String,
-            @Query("page") page: Long
-    ): MovieResponse
+    suspend fun getPopularMovies(@QueryMap map: Map<String, String>): Response<MovieResponse>
 
     @GET("movie/top_rated")
-    suspend fun getTopRated(
-            @Query("api_key") apiKey: String,
-            @Query("page") page: Long
-    ): MovieResponse
+    suspend fun getTopMovies(@QueryMap map: Map<String, String>): Response<MovieResponse>
+
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(@QueryMap map: Map<String, String>): Response<MovieResponse>
+
+    @GET("discover/movie")
+    suspend fun getGenreMovies(@QueryMap map: Map<String, String>): Response<MovieResponse>
+
 }

@@ -14,6 +14,7 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 
     companion object {
+        @Volatile
         private var instance: MovieDatabase? = null
 
         fun getInstance(application: Application): MovieDatabase {
