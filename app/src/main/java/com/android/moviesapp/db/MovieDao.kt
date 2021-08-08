@@ -2,7 +2,7 @@ package com.android.moviesapp.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.OnConflictStrategy.IGNORE
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.android.moviesapp.model.Movie
 
 @Dao
@@ -14,9 +14,9 @@ interface MovieDao {
     @Delete
     suspend fun delete(movie: Movie)
 
-    @Query("SELECT * FROM movie_table")
-    fun getMovies() : LiveData<List<Movie>>
-
     @Query("SELECT EXISTS(SELECT * FROM movie_table WHERE id = :id)")
     suspend fun isExist(id: Long): Boolean
+
+    @RawQuery(observedEntities = [Movie::class])
+    fun getFavorites(sortQuery: SupportSQLiteQuery): LiveData<List<Movie>>
 }

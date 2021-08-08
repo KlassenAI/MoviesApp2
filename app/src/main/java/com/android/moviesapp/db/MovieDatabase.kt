@@ -7,13 +7,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.android.moviesapp.model.GenreIdsConverter
 import com.android.moviesapp.model.Movie
+import com.android.moviesapp.util.Constant.Companion.DATABASE_NAME
 
 @Database(entities = [Movie::class], version = 1, exportSchema = false)
 @TypeConverters(GenreIdsConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
+
     abstract fun movieDao(): MovieDao
 
     companion object {
+
         @Volatile
         private var instance: MovieDatabase? = null
 
@@ -24,7 +27,7 @@ abstract class MovieDatabase : RoomDatabase() {
             }
             synchronized(this) {
                 val inst = Room.databaseBuilder(application.applicationContext,
-                        MovieDatabase::class.java, "movie_database")
+                        MovieDatabase::class.java, DATABASE_NAME)
                         .build()
                 instance = inst
                 return instance as MovieDatabase

@@ -6,25 +6,25 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android.moviesapp.databinding.LoadStateFooterBinding
 import com.android.moviesapp.adapter.MovieLoadStateAdapter.LoadStateViewHolder
+import com.android.moviesapp.databinding.LoadStateBinding
 
 class MovieLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<LoadStateViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
-        holder.binding.footerBtn.setOnClickListener {
+        holder.binding.loadStateBtnRepeat.setOnClickListener {
             retry.invoke()
         }
         holder.binding.apply {
-            footerProgressBar.isVisible = loadState is LoadState.Loading
-            footerBtn.isVisible = loadState !is LoadState.Loading
-            footerTextError.isVisible = loadState !is LoadState.Loading
+            loadStateProgress.isVisible = loadState is LoadState.Loading
+            loadStateBtnRepeat.isVisible = loadState !is LoadState.Loading
+            loadStateText.isVisible = loadState !is LoadState.Loading
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
-        val binding = LoadStateFooterBinding.inflate(
+        val binding = LoadStateBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -32,7 +32,7 @@ class MovieLoadStateAdapter(private val retry: () -> Unit) :
         return LoadStateViewHolder(binding)
     }
 
-    inner class LoadStateViewHolder(val binding: LoadStateFooterBinding) :
+    inner class LoadStateViewHolder(val binding: LoadStateBinding) :
         RecyclerView.ViewHolder(binding.root)
 
 }

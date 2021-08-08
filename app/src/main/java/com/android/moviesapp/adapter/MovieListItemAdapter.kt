@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.moviesapp.R
 import com.android.moviesapp.adapter.MovieListItemAdapter.MovieViewHolder
+import com.android.moviesapp.callback.AdapterCallback
 import com.android.moviesapp.databinding.ListItemBinding
 import com.android.moviesapp.model.Movie
 import com.android.moviesapp.ui.main.MainViewModel
@@ -18,15 +19,14 @@ import kotlinx.coroutines.withContext
 class MovieListItemAdapter(
     private var movies: List<Movie>,
     private val viewModel: MainViewModel,
-    private val isList: Boolean,
-    private val callback: MovieAdapterCallback
+    private val callback: AdapterCallback
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val itemBinding: ListItemBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                if (isList) R.layout.list_item else R.layout.list_item,
+                R.layout.list_item,
                 parent,
                 false
             )
@@ -35,32 +35,7 @@ class MovieListItemAdapter(
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
-        holder.binding.movie = movie
-
-        holder.binding.listItemCard.setOnClickListener {
-            callback.showFullInfo(movie)
-        }
-
-        CoroutineScope(IO).launch {
-            val favorite = viewModel.isExist(movie.id)
-            withContext(Main) {
-                holder.binding.listItemLike.setImageResource(
-                    if (favorite) R.drawable.ic_heart_fill_64
-                    else R.drawable.ic_heart
-                )
-            }
-        }
-
-        holder.binding.listItemLike.setOnClickListener {
-            CoroutineScope(IO).launch {
-                val favorite = viewModel.isExist(movie.id)
-                withContext(Main) {
-                    if (favorite) viewModel.delete(movie)
-                    else viewModel.insert(movie)
-                    notifyItemChanged(position)
-                }
-            }
-        }
+        holder.bind(movie, position)
     }
 
     override fun getItemCount(): Int {
@@ -68,7 +43,40 @@ class MovieListItemAdapter(
     }
 
     inner class MovieViewHolder(val binding: ListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(movie: Movie, position: Int) {
+                binding.movie = movie
+
+                binding.run {
+
+                    listItemCard.setOnClickListener {
+                        callback.showMovieInfo(movie)
+                    }
+
+                    CoroutineScope(IO).launch {
+                        val favorite = viewModel.isExist(movie.id)
+                        withContext(Main) {
+                            listItemLike.setImageResource(
+                                if (favorite) R.drawable.ic_heart_fill_64
+                                else R.drawable.ic_heart
+                            )
+                        }
+                    }
+
+                    listItemLike.setOnClickListener {
+                        CoroutineScope(IO).launch {
+                            val favorite = viewModel.isExist(movie.id)
+                            withContext(Main) {
+                                if (favorite) viewModel.delete(movie)
+                                else viewModel.insert(movie)
+                                notifyItemChanged(position)
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     fun setList(list: List<Movie>) {
         movies = list
@@ -76,8 +84,4 @@ class MovieListItemAdapter(
     }
 
     fun get(id: Int) = movies[id]
-}
-
-interface MovieAdapterCallback {
-    fun showFullInfo(movie: Movie)
 }

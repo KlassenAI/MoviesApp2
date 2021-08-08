@@ -8,10 +8,9 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_toolbar"
+        style="@style/themeToolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimaryLight"
-        android:elevation="4dp"
+        android:layout_height="@dimen/toolbar_height"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,10 +22,9 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/formEditText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:background="@drawable/round_edit_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search_filter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,27 +32,22 @@
 
                 <ImageView
                     android:id="@+id/search_image"
+                    style="@style/imageEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:contentDescription="@string/cd_search_image"
                     android:src="@drawable/ic_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/search_edit_text"
+                    style="@style/themeEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="8dp"
                     android:autofillHints=""
-                    android:background="@color/white"
                     android:hint="@string/hint_search_edit_text"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:singleLine="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/search_image"
@@ -62,20 +55,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageButton
+            <Button
                 android:id="@+id/search_filter"
+                style="@style/btn_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/colorPrimaryLight"
-                android:contentDescription="@string/cd_search_filter"
-                android:src="@drawable/ic_filter"
+                android:text="@string/filter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,69 +71,54 @@
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/search_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
+        style="@style/progress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_toolbar" />
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/search_snack_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/search_swipe"
+            style="@style/swipe"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_recycler"
+                style="@style/recycler" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <TextView
         android:id="@+id/search_message_first"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        style="@style/themeMessage"
+        android:text="@string/message_first"
+        app:drawableTopCompat="@drawable/ic_theaters"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_theaters"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Хотите найти новый фильм? Введите название в строку поиска"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:id="@+id/search_message_empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        style="@style/themeMessage"
+        android:text="@string/message_empty"
         android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_search_off"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_search_off"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="По запросу фильма ничего не было найдено"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar" />
 
     <LinearLayout
         android:id="@+id/search_message_error"
@@ -159,53 +132,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_wifi_error"
-            app:tint="@color/black" />
-
         <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Не удалось выполнить запрос. Попробуйте еще раз"
-            android:textSize="16sp" />
+            style="@style/themeMessage"
+            android:text="@string/message_error"
+            app:drawableTopCompat="@drawable/ic_wifi_error" />
 
         <Button
             android:id="@+id/search_btn_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Повторить" />
+            android:text="@string/repeat" />
 
     </LinearLayout>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/search_snack"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/search_swipe"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:padding="4dp" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

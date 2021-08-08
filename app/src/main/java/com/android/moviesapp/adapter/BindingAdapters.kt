@@ -1,16 +1,15 @@
-package com.android.moviesapp.model
+package com.android.moviesapp.adapter
 
-import android.view.View.GONE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.android.moviesapp.R
-import com.android.moviesapp.util.Constants
+import com.android.moviesapp.util.Constant
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
-
+import kotlin.math.roundToInt
 
 class BindingAdapters {
 
@@ -21,7 +20,6 @@ class BindingAdapters {
         fun loadImage(imageView: ImageView, imageUrl: String?) {
 
             val placeholder = CircularProgressDrawable(imageView.context)
-            placeholder.setColorSchemeColors(R.color.colorPrimaryLight, R.color.colorPrimaryVariantLight)
             placeholder.strokeWidth = 5f
             placeholder.centerRadius = 30f
             placeholder.start()
@@ -30,7 +28,7 @@ class BindingAdapters {
             Glide.with(imageView.context)
                 .load(imagePath)
                 .placeholder(placeholder)
-                .error(R.drawable.default_poster)
+                .error(R.drawable.poster_error)
                 .into(imageView)
         }
 
@@ -43,30 +41,36 @@ class BindingAdapters {
                 df = SimpleDateFormat("d MMMM y", Locale("ru"))
                 textView.text = df.format(date)
             } else {
-                textView.text = "Нет даты"
+                textView.text = textView.context.getString(R.string.no_date)
             }
         }
 
-        @BindingAdapter("releaseShortDate")
+        @BindingAdapter("overview")
         @JvmStatic
-        fun formatShortDate(textView: TextView, releaseDate: String?) {
-            if (releaseDate != null && releaseDate.isNotEmpty()) {
-                var df = SimpleDateFormat("y-MM-dd", Locale("ru"))
-                val date = df.parse(releaseDate)!!
-                df = SimpleDateFormat("d MMM y", Locale("ru"))
-                textView.text = df.format(date)
+        fun formatOverview(textView: TextView, overview: String?) {
+            if (overview != null && overview.isNotEmpty()) {
+                textView.text = overview
             } else {
-                textView.text = "Нет даты"
+                textView.text = textView.context.getString(R.string.no_overview)
             }
         }
 
         @BindingAdapter("genre")
         @JvmStatic
         fun formatGenre(textView: TextView, genres: List<Int>) {
-            val map = Constants.genreMap
-            val text = if (genres.isNotEmpty()) map[genres[0]].toString() else ""
-            if (text.isEmpty()) textView.visibility = GONE
-            else textView.text = text
+            if (genres.isEmpty()) {
+                textView.text = textView.context.getString(R.string.no_genre)
+            } else {
+                val genre = Constant.getGenreById(textView.context, genres[0])
+                textView.text = genre.capitalize(Locale.ROOT)
+            }
+        }
+
+        @BindingAdapter("double")
+        @JvmStatic
+        fun formatDouble(textView: TextView, d: Double) {
+            val text = d.roundToInt().toString()
+            textView.text = text
         }
     }
 }

@@ -12,12 +12,21 @@ class SearchViewModel(application: Application) : MainViewModel(application) {
     }
 
     val currentQuery = MutableLiveData(DEFAULT_QUERY)
+    val discoverMap = MutableLiveData(HashMap<String, String>())
 
     val searchMovies = currentQuery.switchMap {
-        repository.getSearchMovies(it).cachedIn(viewModelScope)
+        repository.searchMovies(it).cachedIn(viewModelScope)
     }
 
     fun searchMovies(query: String) {
         currentQuery.value = query
+    }
+
+    val discoverMovies = discoverMap.switchMap {
+        repository.getDiscover(it).cachedIn(viewModelScope)
+    }
+
+    fun discoverMovies(map: HashMap<String, String>) {
+        discoverMap.value = map
     }
 }

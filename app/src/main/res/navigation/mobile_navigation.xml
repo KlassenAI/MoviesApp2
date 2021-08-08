@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_search">
+    app:startDestination="@+id/nav_home">
 
     <fragment
         android:id="@+id/nav_search"
@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_search_to_movie"
             app:destination="@id/nav_movie" />
+        <action
+            android:id="@+id/action_search_to_search_get_filter"
+            app:destination="@id/nav_search_get_filter" />
 
     </fragment>
 
@@ -27,9 +30,10 @@
             android:id="@+id/action_home_to_movies"
             app:destination="@id/nav_movies"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+
         <action
-            android:id="@+id/action_home_to_movies_by_genre"
-            app:destination="@id/nav_movies_by_genre" />
+            android:id="@+id/action_home_to_movies_get_genre"
+            app:destination="@id/nav_movies_get_genre" />
 
     </fragment>
 
@@ -47,7 +51,7 @@
 
     <fragment
         android:id="@+id/nav_watch_list"
-        android:name="com.android.moviesapp.ui.watchlist.WatchListFragment"
+        android:name="com.android.moviesapp.ui.watchlist.WatchListWatchList"
         android:label="@string/title_watch_list"
         tools:layout="@layout/fragment_watch_list" >
 
@@ -61,7 +65,13 @@
         android:id="@+id/nav_movie"
         android:name="com.android.moviesapp.ui.movie.MovieFragment"
         android:label="Movie"
-        tools:layout="@layout/fragment_movie" />
+        tools:layout="@layout/fragment_movie" >
+
+        <action
+            android:id="@+id/action_movie_to_overview"
+            app:destination="@id/nav_movie_overview" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_movies_by_genre"
@@ -74,5 +84,47 @@
             app:destination="@id/nav_movie" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_movies_get_genre"
+        android:name="com.android.moviesapp.ui.home.HomeMoviesGetGenreFragment"
+        android:label="fragment_home_movies_get_genre"
+        tools:layout="@layout/fragment_home_movies_get_genre" >
+
+        <action
+            android:id="@+id/action_movies_get_genre_to_movies_by_genre"
+            app:destination="@id/nav_movies_by_genre" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search_get_filter"
+        android:name="com.android.moviesapp.ui.search.SearchGetFilterFragment"
+        android:label="fragment_search_get_filter"
+        tools:layout="@layout/fragment_search_get_filter" >
+
+        <action
+            android:id="@+id/action_search_get_filter_to_search_by_filter"
+            app:destination="@id/nav_search_by_filter" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search_by_filter"
+        android:name="com.android.moviesapp.ui.search.SearchByFilterFragment"
+        android:label="fragment_search_by_filter"
+        tools:layout="@layout/fragment_search_by_filter" >
+
+        <action
+            android:id="@+id/action_search_by_filter_to_nav_movie"
+            app:destination="@id/nav_movie" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_movie_overview"
+        android:name="com.android.moviesapp.ui.movie.MovieOverviewFragment"
+        android:label="fragment_movie_overview"
+        tools:layout="@layout/fragment_movie_overview" />
 
 </navigation>

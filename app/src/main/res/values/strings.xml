@@ -1,13 +1,141 @@
 <resources>
     <string name="app_name">Movies App</string>
+
     <string name="title_search">Поиск</string>
     <string name="title_home">Домашняя</string>
     <string name="title_watch_list">Избранные</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_to_favorites">ADD TO FAVORITES</string>
-    <string name="in_favorites">IN FAVORITES</string>
+
+    <string name="add_movie_in_favorites">Добавить в избранное</string>
+    <string name="movie_in_favorites">В избранном</string>
+
+    <string name="hint_search_edit_text">Поиск фильмов</string>
+
+    <string name="ok">ок</string>
+    <string name="cancel">отмена</string>
+
+    <string name="dialog_sort_text">Сортировка списка по:</string>
+    <string name="sort_add_date">дате добавления</string>
+    <string name="sort_id">идентификатору</string>
+    <string name="sort_title">названию</string>
+    <string name="sort_popularity">популярности</string>
+    <string name="sort_release_date">дате выхода</string>
+    <string name="sort_vote_average">средней оценке</string>
+    <string name="sort_vote_count">оценкам</string>
+
+    <string name="movie_added">Фильм добавлен в избранные</string>
+    <string name="movie_deleted">Фильм удален из избранных</string>
+    <string name="movie_already_in_favorites">Фильм уже в избранных</string>
+
+    <string name="message_first">Хотите найти фильм? Введите название в строку поиска</string>
+    <string name="message_empty">По запросу фильма ничего не было найдено</string>
+    <string name="message_error">Не удалось выполнить запрос. Попробуйте еще раз</string>
+    <string name="message_empty_favorites">Избранных фильмов пока нет. Добавьте фильмы при поиске</string>
+
+    <string name="action">боевик</string>
+    <string name="adventure">приключения</string>
+    <string name="animation">мультфильм</string>
+    <string name="comedy">комедия</string>
+    <string name="crime">криминал</string>
+    <string name="documentary">документальный</string>
+    <string name="drama">драма</string>
+    <string name="family">семейный</string>
+    <string name="fantasy">фэнтези</string>
+    <string name="history">исторический</string>
+    <string name="horror">ужасы</string>
+    <string name="music">музыка</string>
+    <string name="mystery">детектив</string>
+    <string name="romance">мелодрама</string>
+    <string name="science_fiction">фантастика</string>
+    <string name="tv_movie">телевизионный фильм</string>
+    <string name="thriller">триллер</string>
+    <string name="war">военный</string>
+    <string name="western">вестерн</string>
+
+    <string name="less_hour">меньше 1ч</string>
+    <string name="one_two_hours">1–2 часа</string>
+    <string name="two_three_hours">2–3 часа</string>
+    <string name="more_three_hours">больше 3ч</string>
+
+    <string name="runtime_60">60</string>
+    <string name="runtime_120">120</string>
+    <string name="runtime_180">180</string>
+
+    <string name="rate_8">8</string>
+    <string name="rate_7">7</string>
+    <string name="rate_6">6</string>
+
+    <string name="country_ru">Россия</string>
+    <string name="country_en">США</string>
+
+    <string name="ru">ru</string>
+    <string name="en">en</string>
+
+    <string name="sort_popularity_asc">popularity.asc</string>
+    <string name="sort_popularity_desc">popularity.desc</string>
+    <string name="sort_release_date_asc">release_date.asc</string>
+    <string name="sort_release_date_desc">release_date.desc</string>
+    <string name="sort_vote_average_asc">vote_average.asc</string>
+    <string name="sort_vote_average_desc">vote_average.desc</string>
+    <string name="sort_vote_count_asc">vote_count.asc</string>
+    <string name="sort_vote_count_desc">vote_count.desc</string>
+
+    <string name="repeat">Повторить</string>
+    <string name="search">Поиск</string>
+    <string name="clear">Очистить</string>
+    <string name="title">Название</string>
+    <string name="cd_poster">Постер</string>
+    <string name="genre">Жанр</string>
+
+    <string name="vote">0.0</string>
+    <string name="filter">Фильтр</string>
+    <string name="sort">Сортировка</string>
+    <string name="date">Дата</string>
+    <string name="text_adult">18+</string>
+    <string name="text_rate">Рейтинг</string>
+    <string name="text_votes">Оценки</string>
+    <string name="genres">Жанры</string>
+    <string name="default_votes">100</string>
+    <string name="default_rate">10</string>
+
+    <string name="cd_like">Лайк</string>
     <string name="cd_search_filter">Фильтр</string>
     <string name="cd_search_image">Поиск</string>
-    <string name="hint_search_edit_text">Поиск фильмов</string>
+    <string name="movies_cannot_load">Фильмы не могут быть загружены</string>
+    <string name="no_genres">Жанров нет</string>
+    <string name="overview">Описание</string>
+    <string name="no_overview">Описания нет</string>
+    <string name="no_date">Даты нет</string>
+    <string name="no_genre">Жанра нет</string>
+    <string name="popular">Популярные</string>
+    <string name="upcoming">Предстоящие</string>
+    <string name="top">Лучшие</string>
+    <string name="by_genre">По жанрам</string>
+    <string name="movies">Фильмы</string>
+    <string name="movies_by_genre">Фильмы по жанру</string>
+    <string name="movie_genres">Жанры фильмов</string>
+    <string name="text">текст</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movie">Фильм</string>
+    <string name="categories">Категории фильмов</string>
+    <string name="rate">Рейтинг</string>
+    <string name="counts">Оценки</string>
+    <string name="runtime">Продолжительность</string>
+    <string name="count_10000">10000</string>
+    <string name="count_1000">1000</string>
+    <string name="count_100">100</string>
+    <string name="to">до</string>
+    <string name="min_year">1920</string>
+    <string name="next_year_space">8</string>
+    <string name="set_year">Выбрать год</string>
+    <string name="set_range">Выбрать диапазон</string>
+    <string name="change">Поменять</string>
+    <string name="format_range_date_text">c %s по %s</string>
+    <string name="format_range_date_tag">%s %s</string>
+    <string name="change_to_range">Поменять на диапазон</string>
+    <string name="change_to_year">Поменять на год</string>
+    <string name="title_filter_movies">Фильтр кино</string>
+    <string name="title_movie_categories">Категории фильмов</string>
+
 </resources>

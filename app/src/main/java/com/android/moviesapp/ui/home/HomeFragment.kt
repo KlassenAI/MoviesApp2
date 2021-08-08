@@ -2,6 +2,7 @@ package com.android.moviesapp.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -24,6 +25,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
 
     private fun initFields() {
         initButtons()
+        initToolbar()
     }
 
     private fun initButtons() {
@@ -31,7 +33,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
             it.btnPopular.setOnClickListener(this)
             it.btnUpcoming.setOnClickListener(this)
             it.btnTop.setOnClickListener(this)
-            it.btnGenres.setOnClickListener(this)
+            it.btnByGenre.setOnClickListener(this)
+        }
+    }
+
+    private fun initToolbar() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
         }
     }
 
@@ -42,8 +51,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
             R.id.btn_upcoming -> bundle.putSerializable(TypeRequest::class.java.simpleName, UPCOMING)
             R.id.btn_top -> bundle.putSerializable(TypeRequest::class.java.simpleName, TOP)
         }
-        if (v?.id == R.id.btn_genres) {
-            navController.navigate(R.id.action_home_to_movies_by_genre, bundle)
+        if (v?.id == R.id.btn_by_genre) {
+            navController.navigate(R.id.action_home_to_movies_get_genre, bundle)
         } else {
             navController.navigate(R.id.action_home_to_movies, bundle)
         }

@@ -9,13 +9,12 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/movies_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimaryLight"
-        android:elevation="4dp"
+        android:layout_height="@dimen/toolbar_height"
+        style="@style/themeToolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Фильмы" />
+        app:title="@string/categories" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/movies_progress"
@@ -27,41 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movies_toolbar" />
-
-    <LinearLayout
-        android:id="@+id/movies_message_error"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movies_toolbar">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_wifi_error"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Не удалось выполнить запрос. Попробуйте еще раз"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/movies_btn_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Повторить" />
-
-    </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/movies_snack_bar"
@@ -81,12 +45,36 @@
                 android:id="@+id/movies_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:padding="4dp" />
+                style="@style/recycler" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/movies_message_error"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movies_toolbar">
+
+        <TextView
+            style="@style/themeMessage"
+            android:text="@string/message_error"
+            app:drawableTopCompat="@drawable/ic_wifi_error" />
+
+        <Button
+            android:id="@+id/movies_btn_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

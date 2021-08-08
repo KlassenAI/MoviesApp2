@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.watchlist.WatchListFragment">
+    tools:context=".ui.watchlist.WatchListWatchList">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/movies_by_genre_toolbar"
+        android:id="@+id/watch_list_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimaryLight"
-        android:elevation="4dp"
+        android:layout_height="@dimen/toolbar_height"
+        style="@style/themeToolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,50 +23,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movies_by_genre_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/watch_list_toolbar">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/watch_list_swipe"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            style="@style/swipe">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/watch_list_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:padding="4dp" />
+                style="@style/recycler" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:id="@+id/watch_list_message_empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/watch_list_text_empty"
+        style="@style/themeMessage"
+        android:text="@string/message_empty_favorites"
+        app:drawableTopCompat="@drawable/ic_favorites"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movies_by_genre_toolbar">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_theaters"
-            app:tint="@color/black" />
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Избранных фильмов пока нет. Добавьте фильмы при поиске"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/watch_list_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,15 +2,94 @@
     <!-- Base application theme. -->
     <style name="Theme.MoviesApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/cardview_dark_background</item>
+        <item name="colorPrimary">@color/primaryDark</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/secondaryDark</item>
+        <item name="colorSecondaryVariant">@color/secondaryDark</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="themeMessage" parent="message">
+        <item name="drawableTint">@color/white</item>
+    </style>
+
+    <style name="themeEditText" parent="editText">
+        <item name="android:background">@color/primaryVariantDark</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/primaryVariantDark</item>
+    </style>
+
+    <style name="themeToolbar">
+        <item name="android:background">@color/primaryDark</item>
+        <item name="android:iconTint" tools:targetApi="o">@color/white</item>
+    </style>
+
+    <style name="themeButton" parent="button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:tint">@color/primaryDark</item>
+    </style>
+
+    <style name="themePrimaryText" parent="primaryText">
+        <item name="android:textColor">@color/primaryTextDark</item>
+    </style>
+
+    <style name="themeSecondaryText" parent="secondaryText">
+        <item name="android:textColor">@color/secondaryTextDark</item>
+    </style>
+
+    <style name="themeBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="itemTextColor">@drawable/bottom_nav_color_dark</item>
+        <item name="itemIconTint">@drawable/bottom_nav_color_dark</item>
+    </style>
+
+    <style name="themeChipChoice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Customize your styles here. -->
+
+    <color name="themeGenreStroke">@color/white</color>
+    <color name="themeGenreBackground">@color/primaryDark</color>
+
+
+    <style name="btnLike">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:contentDescription">@string/cd_like</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+
+
+    <style name="formEditText">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@drawable/round_form</item>
+        <item name="android:backgroundTint">@color/primaryVariantDark</item>
+    </style>
+
+    <style name="imageEditText">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:contentDescription">@string/cd_search_image</item>
+    </style>
+
+    <style name="btn_filter">
+        <item name="android:backgroundTint">@color/primaryVariantDark</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:contentDescription">@string/cd_search_filter</item>
+    </style>
+
 </resources>
