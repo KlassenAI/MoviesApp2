@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/movies_by_genre" />
+        app:title="@string/title_movies_by_genre" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/movies_by_genre_progress"

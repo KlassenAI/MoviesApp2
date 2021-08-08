@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/normal_margin"
-        android:text="@string/movies_cannot_load" />
+        android:text="@string/message_no_load" />
 
     <Button
         android:id="@+id/load_state_btn_repeat"

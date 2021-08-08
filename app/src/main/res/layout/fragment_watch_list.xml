@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Избранные" />
+        app:title="@string/title_watch_list" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/watch_list_snack_bar"

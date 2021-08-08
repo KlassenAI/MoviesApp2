@@ -25,7 +25,6 @@ import com.android.moviesapp.callback.SwipeCallback
 import com.android.moviesapp.databinding.FragmentHomeMoviesByGenreBinding
 import com.android.moviesapp.factory.ViewModelFactory
 import com.android.moviesapp.model.Movie
-import com.android.moviesapp.model.TypeRequest
 import com.android.moviesapp.util.Constant
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
@@ -140,7 +139,7 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
     private fun initToolbar() {
         (requireActivity() as AppCompatActivity).run {
             setSupportActionBar(binding.moviesByGenreToolbar)
-            supportActionBar?.title = getString(R.string.movies_by_genre) + " " +
+            supportActionBar?.title = getString(R.string.title_movies_by_genre) + " " +
                     Constant.getGenreById(requireContext(), genre.toInt())
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)

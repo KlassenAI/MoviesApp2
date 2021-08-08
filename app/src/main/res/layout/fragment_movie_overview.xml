@@ -11,7 +11,7 @@
         style="@style/themeToolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        app:title="@string/movie"
+        app:title="@string/title_movie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
