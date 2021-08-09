@@ -1,6 +1,5 @@
 package com.android.moviesapp.paging
 
-import androidx.collection.arrayMapOf
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.android.moviesapp.model.Movie
@@ -13,9 +12,9 @@ import com.android.moviesapp.util.Constant.Companion.KEY_LANG
 import com.android.moviesapp.util.Constant.Companion.KEY_PAGE
 import com.android.moviesapp.util.Constant.Companion.KEY_QUERY
 import com.android.moviesapp.util.Constant.Companion.KEY_REGION
-import com.android.moviesapp.util.Constant.Companion.LANG_RU
-import com.android.moviesapp.util.Constant.Companion.REG_RU
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.HashMap
 
 class MoviePagingSource(
     private val movieApiService: MovieApiService,
@@ -29,9 +28,18 @@ class MoviePagingSource(
 
         return try {
             map[KEY_API_KEY] = API_KEY
-            map[KEY_LANG] = LANG_RU
-            map[KEY_REGION] = REG_RU
             map[KEY_PAGE] = position.toString()
+
+            val language = Locale.getDefault().language
+            map[KEY_LANG] = language
+            when(language) {
+                "ru" -> {
+                    map[KEY_REGION] = language
+                }
+                else -> {
+                    map[KEY_REGION] = "us"
+                }
+            }
 
             val response = when {
                 type != null -> {

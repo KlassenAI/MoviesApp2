@@ -45,8 +45,12 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
     override fun onStart() {
         super.onStart()
         binding.run {
-            searchChipYear.isChecked = false
-            searchChipRange.isChecked = false
+            searchChipYear.run {
+                isChecked = tag != null
+            }
+            searchChipRange.run {
+                isChecked = tag != null
+            }
         }
     }
 
@@ -275,8 +279,9 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
         year: String? = null,
         range: List<String>? = null
     ) {
-        SearchDialog(this, isRangePicker, year = year, range = range)
-            .show(childFragmentManager, "dialog")
+        val dialog = SearchDialog(this, isRangePicker, year = year, range = range)
+        dialog.dialog?.window?.setLayout(R.dimen.dialog_search_width, R.dimen.dialog_search_height)
+        dialog.show(childFragmentManager, "dialog")
     }
 
     private fun ChipGroup.createChip(text: String, tag: String? = null, draw: Int? = null): Chip {

@@ -140,7 +140,7 @@
 
     <!-- defaults -->
     <string name="default_votes">100</string>
-    <string name="default_rate">10</string>
+    <string name="default_rate">0.0</string>
 
     <!-- no parameters -->
     <string name="no_genres">Жанров нет</string>

@@ -12,9 +12,8 @@ class Constant {
 
         const val TABLE_NAME = "movie_table"
         const val DATABASE_NAME = "movie_database"
+
         const val API_KEY = "bbc469558822b67257a0bd5a0534463e"
-        const val LANG_RU = "ru"
-        const val REG_RU = "ru"
 
         const val BUNDLE_KEY_GENRE = "genre"
 
@@ -24,7 +23,6 @@ class Constant {
         const val KEY_QUERY = "query"
         const val KEY_PAGE = "page"
         const val KEY_GENRE = "with_genres"
-        const val KEY_COUNTRY = "with_original_language"
         const val KEY_SORT_BY = "sort_by"
         const val KEY_YEAR = "year"
         const val KEY_RELEASE_DATE_LESS = "release_date.lte"

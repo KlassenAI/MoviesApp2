@@ -41,6 +41,10 @@ class SearchDialog(
                 searchPickerText.isVisible = false
             }
 
+            searchPickerFrom.setOnValueChangedListener { picker, oldVal, newVal ->
+                searchPickerTo.minValue = newVal
+            }
+
             searchBtnOk.setOnClickListener {
                 if (isRangePicker) {
                     callback.setYears(searchPickerFrom.value, searchPickerTo.value)

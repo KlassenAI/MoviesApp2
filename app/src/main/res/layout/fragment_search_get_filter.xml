@@ -27,8 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="64dp">
+            android:orientation="vertical">
 
             <TextView
                 style="@style/themeSecondaryText"
@@ -82,7 +81,8 @@
                 style="@style/themeSecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 android:text="@string/genre" />
 
             <HorizontalScrollView
@@ -104,7 +104,8 @@
                 style="@style/themeSecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 android:text="@string/date" />
 
             <HorizontalScrollView
@@ -157,7 +158,8 @@
                 style="@style/themeSecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 android:text="@string/runtime" />
 
             <HorizontalScrollView
@@ -180,7 +182,8 @@
                 style="@style/themeSecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 android:text="@string/sort" />
 
             <HorizontalScrollView
@@ -199,19 +202,18 @@
 
             </HorizontalScrollView>
 
+            <Button
+                android:id="@+id/btn_filter_search"
+                style="@style/themeButton"
+                android:layout_margin="@dimen/large_margin"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:text="@string/search" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/btn_filter_search"
-        style="@style/themeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_margin"
-        android:text="@string/search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.android.moviesapp.ui.main.MainViewModel
+import java.util.*
+import kotlin.collections.HashMap
 
 class SearchViewModel(application: Application) : MainViewModel(application) {
 
@@ -12,7 +14,7 @@ class SearchViewModel(application: Application) : MainViewModel(application) {
     }
 
     val currentQuery = MutableLiveData(DEFAULT_QUERY)
-    val discoverMap = MutableLiveData(HashMap<String, String>())
+    private val discoverMap = MutableLiveData(HashMap<String, String>())
 
     val searchMovies = currentQuery.switchMap {
         repository.searchMovies(it).cachedIn(viewModelScope)

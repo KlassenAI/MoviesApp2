@@ -44,6 +44,8 @@
         <item name="itemIconTint">@drawable/bottom_nav_color_light</item>
     </style>
 
+    <style name="themeChipChoice" parent="Widget.MaterialComponents.Chip.Choice" />
+
     <!-- Customize your styles here. -->
 
     <color name="themeGenreStroke">@color/black</color>

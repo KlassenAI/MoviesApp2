@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Movies App</string>
+
+    <!-- titles -->
+    <string name="title_search">Search</string>
+    <string name="title_filter_movies">Filter Cinema</string>
+    <string name="title_home">Home</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_movie_categories">Movie Categories</string>
+    <string name="title_movie_genres">Movie Genres</string>
+    <string name="title_watch_list">Watchlist</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_movies_by_genre">Movie by genre</string>
+
+    <!-- movie -->
+    <string name="title">Title</string>
+    <string name="overview">Overview</string>
+    <string name="genres">Genres</string>
+    <string name="date">Date</string>
+    <string name="rate">Rate</string>
+    <string name="counts">Counts</string>
+    <string name="runtime">Runtime</string>
+    <string name="repeat">Repeat</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="filter">Filter</string>
+    <string name="genre">Genre</string>
+    <string name="sort">Sort</string>
+
+    <!-- messages -->
+    <string name="message_first">Want to find a movie? Enter the title in the search bar</string>
+    <string name="message_empty">Nothing was found for the movie query</string>
+    <string name="message_error">Failed to complete the request. Try again</string>
+    <string name="message_empty_favorites">There are no favorite movies yet. Add movies by searching</string>
+    <string name="message_no_load">Movies cannot be downloaded</string>
+
+    <!-- genres -->
+    <string name="action">action</string>
+    <string name="adventure">adventure</string>
+    <string name="animation">animation</string>
+    <string name="comedy">comedy</string>
+    <string name="crime">crime</string>
+    <string name="documentary">documentary</string>
+    <string name="drama">drama</string>
+    <string name="family">family</string>
+    <string name="fantasy">fantasy</string>
+    <string name="history">history</string>
+    <string name="horror">horror</string>
+    <string name="music">music</string>
+    <string name="mystery">mystery</string>
+    <string name="romance">romance</string>
+    <string name="science_fiction">science fiction</string>
+    <string name="tv_movie">TV movie</string>
+    <string name="thriller">thriller</string>
+    <string name="war">war</string>
+    <string name="western">western</string>
+
+    <!-- runtime -->
+    <string name="less_hour">less 1h</string>
+    <string name="one_two_hours">1–2 hours</string>
+    <string name="two_three_hours">2–3 hours</string>
+    <string name="more_three_hours">больше 3ч</string>
+
+    <!-- runtime numbers -->
+    <string name="runtime_60">60</string>
+    <string name="runtime_120">120</string>
+    <string name="runtime_180">180</string>
+
+    <!-- rates -->
+    <string name="rate_8">8</string>
+    <string name="rate_7">7</string>
+    <string name="rate_6">6</string>
+
+    <!-- counts -->
+    <string name="count_10000">10000</string>
+    <string name="count_1000">1000</string>
+    <string name="count_100">100</string>
+
+    <!-- button actions -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- sorts -->
+    <string name="sort_popularity_asc">popularity.asc</string>
+    <string name="sort_popularity_desc">popularity.desc</string>
+    <string name="sort_release_date_asc">release_date.asc</string>
+    <string name="sort_release_date_desc">release_date.desc</string>
+    <string name="sort_vote_average_asc">vote_average.asc</string>
+    <string name="sort_vote_average_desc">vote_average.desc</string>
+    <string name="sort_vote_count_asc">vote_count.asc</string>
+    <string name="sort_vote_count_desc">vote_count.desc</string>
+
+    <!-- content descriptions -->
+    <string name="cd_poster">Poster</string>
+    <string name="cd_like">Like</string>
+    <string name="cd_search_filter">Filter</string>
+    <string name="cd_search_image">Search</string>
+
+    <!-- formats -->
+    <string name="format_range_date_text">from %s to %s</string>
+    <string name="format_range_date_tag">%s %s</string>
+
+    <!-- toasts -->
+    <string name="movie_added">Movie added in favorites</string>
+    <string name="movie_deleted">Movie deleted from favorites</string>
+    <string name="movie_already_in_favorites">Movie is already in favorites</string>
+
+    <!-- dialog search -->
+    <string name="to">to</string>
+    <string name="min_year">1920</string>
+    <string name="next_year_space">8</string>
+    <string name="set_year">Choose year</string>
+    <string name="set_range">Choose range</string>
+    <string name="change">Change</string>
+    <string name="change_to_range">Change to range</string>
+    <string name="change_to_year">Change to year</string>
+
+    <!-- dialog watchlist -->
+    <string name="dialog_sort_text">Sort list by:</string>
+    <string name="sort_add_date">add date</string>
+    <string name="sort_id">id</string>
+    <string name="sort_title">title</string>
+    <string name="sort_popularity">popularity</string>
+    <string name="sort_release_date">release date</string>
+    <string name="sort_vote_average">average vote</string>
+    <string name="sort_vote_count">vote count</string>
+
+    <!-- fragment home -->
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top">Top rated</string>
+    <string name="by_genre">By genre</string>
+
+    <!-- fragment movie -->
+    <string name="add_movie_in_favorites">Add in favorites</string>
+    <string name="movie_in_favorites">Movie in favorites</string>
+
+    <!-- hints -->
+    <string name="hint_search_edit_text">Search movies</string>
+
+    <!-- defaults -->
+    <string name="default_votes">100</string>
+    <string name="default_rate">0.0</string>
+
+    <!-- no parameters -->
+    <string name="no_genres">No genres</string>
+    <string name="no_overview">No overview</string>
+    <string name="no_date">No date</string>
+    <string name="no_genre">No genre</string>
+
+</resources>
