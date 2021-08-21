@@ -18,5 +18,5 @@ interface MovieDao {
     suspend fun isExist(id: Long): Boolean
 
     @RawQuery(observedEntities = [Movie::class])
-    fun getFavorites(sortQuery: SupportSQLiteQuery): LiveData<List<Movie>>
+    fun getFavoriteMovies(sortQuery: SupportSQLiteQuery): LiveData<List<Movie>>
 }

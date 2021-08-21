@@ -13,10 +13,7 @@ class GenreAdapter(private val genres: ArrayList<String>): RecyclerView.Adapter<
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val itemBinding: GenreItemBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.genre_item,
-                parent,
-                false
+                LayoutInflater.from(parent.context), R.layout.genre_item, parent, false
             )
         return GenreViewHolder(itemBinding)
     }

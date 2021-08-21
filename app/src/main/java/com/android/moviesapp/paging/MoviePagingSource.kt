@@ -1,25 +1,16 @@
 package com.android.moviesapp.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.android.moviesapp.model.Movie
-import com.android.moviesapp.model.TypeRequest
-import com.android.moviesapp.model.TypeRequest.*
-import com.android.moviesapp.service.MovieApiService
-import com.android.moviesapp.util.Constant.Companion.API_KEY
-import com.android.moviesapp.util.Constant.Companion.KEY_API_KEY
-import com.android.moviesapp.util.Constant.Companion.KEY_LANG
+import com.android.moviesapp.model.MovieResponse
 import com.android.moviesapp.util.Constant.Companion.KEY_PAGE
-import com.android.moviesapp.util.Constant.Companion.KEY_QUERY
-import com.android.moviesapp.util.Constant.Companion.KEY_REGION
-import java.lang.Exception
-import java.util.*
-import kotlin.collections.HashMap
+import retrofit2.Response
 
 class MoviePagingSource(
-    private val movieApiService: MovieApiService,
-    private val map: HashMap<String, String> = hashMapOf(),
-    private val type: TypeRequest? = null
+    private val queryMap: HashMap<String, String>,
+    private val requestMovies: suspend (HashMap<String, String>) -> Response<MovieResponse>
 ): PagingSource<Long, Movie>() {
 
     override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Movie> {
@@ -27,38 +18,10 @@ class MoviePagingSource(
         val position = params.key ?: 1
 
         return try {
-            map[KEY_API_KEY] = API_KEY
-            map[KEY_PAGE] = position.toString()
-
-            val language = Locale.getDefault().language
-            map[KEY_LANG] = language
-            when(language) {
-                "ru" -> {
-                    map[KEY_REGION] = language
-                }
-                else -> {
-                    map[KEY_REGION] = "us"
-                }
-            }
-
-            val response = when {
-                type != null -> {
-                    when(type) {
-                        POPULAR -> movieApiService.getPopularMovies(map)
-                        TOP -> movieApiService.getTopMovies(map)
-                        UPCOMING -> movieApiService.getUpcomingMovies(map)
-                    }
-                }
-                map[KEY_QUERY] != null -> {
-                    movieApiService.searchMovies(map)
-                }
-                else -> {
-                    movieApiService.discoverMovies(map)
-                }
-            }
+            queryMap[KEY_PAGE] = position.toString()
+            val response = requestMovies(queryMap)
             val result = response.body()
             val movies = result?.movies
-            movies?.map { it.addDate = "" }
 
             LoadResult.Page(
                 data = movies!!,

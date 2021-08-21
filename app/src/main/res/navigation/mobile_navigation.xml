@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/nav_watch_list"
-        android:name="com.android.moviesapp.ui.watchlist.WatchListWatchList"
+        android:name="com.android.moviesapp.ui.watchlist.WatchListFragment"
         android:label="@string/title_watch_list"
         tools:layout="@layout/fragment_watch_list" >
 

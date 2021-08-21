@@ -1,7 +1,7 @@
 package com.android.moviesapp.callback
 
-import com.android.moviesapp.model.Sort
+import com.android.moviesapp.model.SortItem
 
 interface WatchListDialogCallback {
-    fun setSort(sort: Sort)
+    fun setSortList(sortItem: SortItem)
 }

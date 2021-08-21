@@ -25,10 +25,7 @@ class MovieListItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val itemBinding: ListItemBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.list_item,
-                parent,
-                false
+                LayoutInflater.from(parent.context), R.layout.list_item, parent, false
             )
         return MovieViewHolder(itemBinding)
     }

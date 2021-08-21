@@ -7,21 +7,21 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.android.moviesapp.R
 import com.android.moviesapp.callback.SearchDialogCallback
-import com.android.moviesapp.databinding.DialogSearchBinding
+import com.android.moviesapp.databinding.DialogSetYearsBinding
 import java.util.*
 
-class SearchDialog(
+class SetYearsDialog(
     private val callback: SearchDialogCallback,
     private val isRangePicker: Boolean,
     private val year: String? = null,
     private val range: List<String>? = null
-) : DialogFragment(R.layout.dialog_search) {
+) : DialogFragment(R.layout.dialog_set_years) {
 
-    private lateinit var binding: DialogSearchBinding
+    private lateinit var binding: DialogSetYearsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DialogSearchBinding.bind(view)
+        binding = DialogSetYearsBinding.bind(view)
         binding.run {
             if (isRangePicker) {
                 if (range != null) {
@@ -41,7 +41,7 @@ class SearchDialog(
                 searchPickerText.isVisible = false
             }
 
-            searchPickerFrom.setOnValueChangedListener { picker, oldVal, newVal ->
+            searchPickerFrom.setOnValueChangedListener { _, _, newVal ->
                 searchPickerTo.minValue = newVal
             }
 

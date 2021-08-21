@@ -1,7 +1,6 @@
 package com.android.moviesapp.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -22,6 +21,7 @@ import com.android.moviesapp.util.Constant.Companion.KEY_SORT_BY
 import com.android.moviesapp.util.Constant.Companion.KEY_VOTE_AVERAGE
 import com.android.moviesapp.util.Constant.Companion.KEY_VOTE_COUNT
 import com.android.moviesapp.util.Constant.Companion.KEY_YEAR
+import com.android.moviesapp.util.Expansions.Companion.setHomeBtn
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -45,12 +45,12 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
     override fun onStart() {
         super.onStart()
         binding.run {
-            searchChipYear.run {
-                isChecked = tag != null
-            }
-            searchChipRange.run {
-                isChecked = tag != null
-            }
+            /*
+             * Если после поиска фильмов по фильму в SearchByFilterFragment нажать назад и вернуться
+             * обратно, то некоторые элементы могут быть checked, поэтому они отключаются
+             */
+            searchChipYear.apply { isChecked = tag != null }
+            searchChipRange.apply { isChecked = tag != null }
         }
     }
 
@@ -67,9 +67,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
 
     private fun initBtnFilterSearch() {
         binding.btnFilterSearch.setOnClickListener {
-            val map = getFilterMap()
-            Log.e("initBtnFilterSearch", map.toString())
-            val bundle = bundleOf(HashMap::class.java.simpleName to map)
+            val bundle = bundleOf(HashMap::class.java.simpleName to getFilterMap())
             navController.navigate(R.id.action_search_get_filter_to_search_by_filter, bundle)
         }
     }
@@ -77,20 +75,21 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
     private fun getFilterMap(): HashMap<String, String> {
         val map: HashMap<String, String> = hashMapOf()
 
-        binding.run {
-            rateChips.run {
+        // todo Вынести в отдельные функции, ибо не понятно, что делает этот огромный кусок кода
+        binding.apply {
+            rateChips.apply {
                 val chip: Chip? = findViewById(checkedChipId)
                 if (chip != null) {
                     map[KEY_VOTE_AVERAGE] = chip.tag.toString()
                 }
             }
-            countChips.run {
+            countChips.apply {
                 val chip: Chip? = findViewById(checkedChipId)
                 if (chip != null) {
                     map[KEY_VOTE_COUNT] = chip.tag.toString()
                 }
             }
-            genreChips.run {
+            genreChips.apply {
                 val genreArrayList = arrayListOf<String>()
                 checkedChipIds.forEach {
                     val chip: Chip = findViewById(it)
@@ -101,7 +100,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
                     map[KEY_GENRE] = genres
                 }
             }
-            runtimeChips.run {
+            runtimeChips.apply {
                 val chip: Chip? = findViewById(checkedChipId)
                 if (chip != null) {
                     when (chip.text) {
@@ -122,7 +121,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
                     }
                 }
             }
-            dateChips.run {
+            dateChips.apply {
                 val chipYear: Chip = findViewById(binding.searchChipYear.id)
                 val chipRange: Chip = findViewById(binding.searchChipRange.id)
                 if (chipYear.tag != null) {
@@ -133,7 +132,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
                     map[KEY_RELEASE_DATE_LESS] = range[1] + "-12-31"
                 }
             }
-            sortChips.run {
+            sortChips.apply {
                 val chip: Chip? = findViewById(checkedChipId)
                 if (chip != null) {
                     val ascending = chip.tag.equals("true")
@@ -240,10 +239,8 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
                 searchChipChangeDate.text = getString(R.string.change_to_range)
             } else {
                 searchChipRange.run {
-                    text = getString(R.string.format_range_date_text)
-                        .format(from.toString(), to.toString())
-                    tag = getString(R.string.format_range_date_tag)
-                        .format(from.toString(), to.toString())
+                    text = getString(R.string.format_range_date_text).format(from.toString(), to.toString())
+                    tag = getString(R.string.format_range_date_tag).format(from.toString(), to.toString())
                     isChecked = true
                 }
                 searchChipYear.tag = null
@@ -260,8 +257,8 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
         binding.sortChips.run {
             val sorts = Constant.getSortList(requireContext())
             sorts.forEach {
-                addView(createChip(it, tag = "true", draw = getArrowImage(true)))
-                addView(createChip(it, tag = "false", draw = getArrowImage(false)))
+                addView(createChip(it, tag = "true", draw = getAscendingImage(true)))
+                addView(createChip(it, tag = "false", draw = getAscendingImage(false)))
             }
         }
     }
@@ -269,8 +266,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
     private fun initToolbar() {
         (requireActivity() as AppCompatActivity).run {
             setSupportActionBar(binding.searchAdvanceToolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeBtn(true)
         }
     }
 
@@ -279,7 +275,7 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
         year: String? = null,
         range: List<String>? = null
     ) {
-        val dialog = SearchDialog(this, isRangePicker, year = year, range = range)
+        val dialog = SetYearsDialog(this, isRangePicker, year = year, range = range)
         dialog.dialog?.window?.setLayout(R.dimen.dialog_search_width, R.dimen.dialog_search_height)
         dialog.show(childFragmentManager, "dialog")
     }
@@ -292,6 +288,6 @@ class SearchGetFilterFragment : Fragment(R.layout.fragment_search_get_filter),
         return chip
     }
 
-    private fun getArrowImage(ascending: Boolean) =
+    private fun getAscendingImage(ascending: Boolean) =
         if (ascending) R.drawable.ic_arrow_upward else R.drawable.ic_arrow_downward
 }

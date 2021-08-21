@@ -32,6 +32,9 @@ class Constant {
         const val KEY_RUNTIME_LESS = "with_runtime.lte"
         const val KEY_RUNTIME_MORE = "with_runtime.gte"
 
+        const val PATTERN_YEAR_MONTH_DAY = "y-MM-dd"
+        const val PATTERN_DAY_MONTH_YEAR = "d MMMM y"
+
         fun getRateList(context: Context): List<String> =
             listOf(
                 context.getString(R.string.rate_8),

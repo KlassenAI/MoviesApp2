@@ -116,7 +116,7 @@
     <string name="change_to_year">Поменять на год</string>
 
     <!-- dialog watchlist -->
-    <string name="dialog_sort_text">Сортировка списка по:</string>
+    <string name="sort_text">Сортировка списка по:</string>
     <string name="sort_add_date">дате добавления</string>
     <string name="sort_id">идентификатору</string>
     <string name="sort_title">названию</string>

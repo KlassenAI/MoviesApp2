@@ -24,6 +24,8 @@ import com.android.moviesapp.callback.SwipeCallback
 import com.android.moviesapp.databinding.FragmentSearchByFilterBinding
 import com.android.moviesapp.factory.ViewModelFactory
 import com.android.moviesapp.model.Movie
+import com.android.moviesapp.util.Expansions.Companion.setHomeBtn
+import com.android.moviesapp.util.Expansions.Companion.withLoadStateHeaderAndFooter
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import kotlinx.coroutines.Dispatchers.IO
@@ -31,6 +33,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.FieldPosition
 
 class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), AdapterCallback {
 
@@ -38,7 +41,7 @@ class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), Ada
         ViewModelProvider(this, ViewModelFactory(activity?.application!!))
             .get(SearchViewModel::class.java)
     }
-    private val adapter by lazy { PagingListItemAdapter(viewModel, this) }
+    private val listAdapter by lazy { PagingListItemAdapter(viewModel, this) }
 
     private lateinit var binding: FragmentSearchByFilterBinding
     private lateinit var navController: NavController
@@ -63,7 +66,7 @@ class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), Ada
     }
 
     private fun initAdapter() {
-        adapter.addLoadStateListener {
+        listAdapter.addLoadStateListener {
             binding.apply {
                 searchByFilterProgress.isVisible = it.source.refresh is LoadState.Loading
                 searchByFilterSwipe.isVisible = it.source.refresh is LoadState.NotLoading
@@ -73,26 +76,24 @@ class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), Ada
     }
 
     private fun initButtonRefresh() {
-        binding.apply {
-            moviesByGenreBtnRefresh.setOnClickListener {
-                adapter.retry()
-            }
+        binding.moviesByGenreBtnRefresh.setOnClickListener {
+            listAdapter.retry()
         }
     }
 
     private fun initGenre() {
-        if (arguments?.getSerializable(HashMap::class.java.simpleName) != null) {
-            map = arguments?.getSerializable(HashMap::class.java.simpleName) as HashMap<String, String>
+        val arguments = arguments?.getSerializable(HashMap::class.java.simpleName)
+        if (arguments != null) {
+            map = arguments as HashMap<String, String>
         }
         viewModel.discoverMovies(map)
     }
 
     private fun initRecycler() {
-        binding.searchByFilterRecycler.also {
-            it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            it.adapter = adapter.withLoadStateHeaderAndFooter(
-                MovieLoadStateAdapter { adapter.retry() },
-                MovieLoadStateAdapter { adapter.retry() }
+        binding.searchByFilterRecycler.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = listAdapter.withLoadStateHeaderAndFooter(
+                MovieLoadStateAdapter { listAdapter.retry() }
             )
         }
     }
@@ -101,7 +102,7 @@ class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), Ada
         binding.searchByFilterSwipe.run {
             setOnRefreshListener {
                 viewModel.also {
-                    adapter.retry()
+                    listAdapter.retry()
                 }
             }
             isRefreshing = false
@@ -112,52 +113,49 @@ class SearchByFilterFragment : Fragment(R.layout.fragment_search_by_filter), Ada
         ItemTouchHelper(object : SwipeCallback(requireContext(), 0, END) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
-                val movie = adapter.get(position)
-                adapter.notifyItemChanged(position)
-
-                GlobalScope.launch(IO) {
-                    val favorite = viewModel.isExist(movie?.id!!)
-                    withContext(Main) {
-                        if (favorite) {
-                            Toast.makeText(
-                                context, getString(R.string.movie_already_in_favorites), LENGTH_SHORT
-                            ).show()
-                        } else {
-                            viewModel.insert(movie)
-                            Snackbar.make(
-                                binding.searchByFilterSnackBar, getString(R.string.movie_added), LENGTH_LONG
-                            ).setAction(getString(R.string.cancel)) {
-                                viewModel.delete(movie)
-                                adapter.notifyItemChanged(position)
-                            }.show()
-                        }
-                    }
-                }
+                val movie = listAdapter.get(position)!!
+                listAdapter.notifyItemChanged(position)
+                addMovieWithUndo(movie, position)
             }
         }).attachToRecyclerView(binding.searchByFilterRecycler)
+    }
+
+    private fun addMovieWithUndo(movie: Movie, position: Int) {
+        GlobalScope.launch(IO) {
+            val favorite = viewModel.isExist(movie.id)
+            withContext(Main) {
+                if (favorite) {
+                    Toast.makeText(
+                        context, getString(R.string.movie_already_in_favorites), LENGTH_SHORT
+                    ).show()
+                } else {
+                    viewModel.insert(movie)
+                    Snackbar.make(
+                        binding.searchByFilterSnackBar, getString(R.string.movie_added), LENGTH_LONG
+                    ).setAction(getString(R.string.cancel)) {
+                        viewModel.delete(movie)
+                        listAdapter.notifyItemChanged(position)
+                    }.show()
+                }
+            }
+        }
     }
 
     private fun initToolbar() {
         (requireActivity() as AppCompatActivity).run {
             setSupportActionBar(binding.searchByFilterToolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeBtn(true)
         }
     }
 
     private fun initViewModel() {
         viewModel.discoverMovies.observe(viewLifecycleOwner, {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            listAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
     }
 
     override fun showMovieInfo(movie: Movie) {
-        val bundle = bundleOf(
-            Movie::class.java.simpleName to movie
-        )
-        navController.navigate(
-            R.id.action_search_by_filter_to_nav_movie,
-            bundle
-        )
+        val bundle = bundleOf(Movie::class.java.simpleName to movie)
+        navController.navigate(R.id.action_search_by_filter_to_nav_movie, bundle)
     }
 }

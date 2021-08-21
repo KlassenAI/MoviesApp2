@@ -11,6 +11,8 @@ import androidx.navigation.Navigation
 import com.android.moviesapp.R
 import com.android.moviesapp.databinding.FragmentHomeMoviesGetGenreBinding
 import com.android.moviesapp.util.Constant
+import com.android.moviesapp.util.Constant.Companion.BUNDLE_KEY_GENRE
+import com.android.moviesapp.util.Expansions.Companion.setHomeBtn
 import java.util.*
 
 class HomeMoviesGetGenreFragment : Fragment(R.layout.fragment_home_movies_get_genre) {
@@ -20,12 +22,10 @@ class HomeMoviesGetGenreFragment : Fragment(R.layout.fragment_home_movies_get_ge
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentHomeMoviesGetGenreBinding.bind(view)
         navController = Navigation.findNavController(view)
-        initFields()
-    }
 
-    private fun initFields() {
         initList()
         initToolbar()
     }
@@ -39,12 +39,10 @@ class HomeMoviesGetGenreFragment : Fragment(R.layout.fragment_home_movies_get_ge
             )
             moviesGetGenreList.setOnItemClickListener { _, _, position, _ ->
                 val genre = moviesGetGenreList.getItemAtPosition(position) as String
-                navController.navigate(
-                    R.id.action_movies_get_genre_to_movies_by_genre,
-                    bundleOf(
-                        Constant.BUNDLE_KEY_GENRE to Constant.getIdByGenre(requireContext(), genre)
-                    )
+                val bundle = bundleOf(
+                    BUNDLE_KEY_GENRE to Constant.getIdByGenre(requireContext(), genre)
                 )
+                navController.navigate(R.id.action_movies_get_genre_to_movies_by_genre, bundle)
             }
         }
     }
@@ -52,8 +50,7 @@ class HomeMoviesGetGenreFragment : Fragment(R.layout.fragment_home_movies_get_ge
     private fun initToolbar() {
         (requireActivity() as AppCompatActivity).run {
             setSupportActionBar(binding.moviesGetGenreToolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeBtn(true)
         }
     }
 }

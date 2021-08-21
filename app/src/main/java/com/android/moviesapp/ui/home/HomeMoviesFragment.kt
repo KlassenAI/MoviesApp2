@@ -26,6 +26,8 @@ import com.android.moviesapp.factory.ViewModelFactory
 import com.android.moviesapp.model.Movie
 import com.android.moviesapp.model.TypeRequest
 import com.android.moviesapp.model.TypeRequest.*
+import com.android.moviesapp.util.Expansions.Companion.setHomeBtn
+import com.android.moviesapp.util.Expansions.Companion.withLoadStateHeaderAndFooter
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import kotlinx.coroutines.Dispatchers.IO
@@ -40,7 +42,7 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
         ViewModelProvider(this, ViewModelFactory(activity?.application!!))
             .get(HomeViewModel::class.java)
     }
-    private val adapter by lazy { PagingListItemAdapter(viewModel, this) }
+    private val listAdapter by lazy { PagingListItemAdapter(viewModel, this) }
 
     private lateinit var binding: FragmentHomeMoviesBinding
     private lateinit var navController: NavController
@@ -48,8 +50,10 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         navController = Navigation.findNavController(view)
         binding = FragmentHomeMoviesBinding.bind(view)
+
         initFields()
     }
 
@@ -65,7 +69,7 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
     }
 
     private fun initAdapter() {
-        adapter.addLoadStateListener {
+        listAdapter.addLoadStateListener {
             binding.apply {
                 moviesProgress.isVisible = it.source.refresh is LoadState.Loading
                 moviesSwipe.isVisible = it.source.refresh is LoadState.NotLoading
@@ -75,10 +79,8 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
     }
 
     private fun initButtonRefresh() {
-        binding.apply {
-            moviesBtnRefresh.setOnClickListener {
-                adapter.retry()
-            }
+        binding.moviesBtnRefresh.setOnClickListener {
+            listAdapter.retry()
         }
     }
 
@@ -88,19 +90,18 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
     }
 
     private fun initRecycler() {
-        binding.moviesRecycler.also {
-            it.layoutManager = LinearLayoutManager(context, VERTICAL, false)
-            it.adapter = adapter.withLoadStateHeaderAndFooter(
-                MovieLoadStateAdapter { adapter.retry() },
-                MovieLoadStateAdapter { adapter.retry() }
+        binding.moviesRecycler.apply {
+            layoutManager = LinearLayoutManager(context, VERTICAL, false)
+            adapter = listAdapter.withLoadStateHeaderAndFooter(
+                MovieLoadStateAdapter { listAdapter.retry() }
             )
         }
     }
 
     private fun initSwipeRefresh() {
-        binding.moviesSwipe.run {
+        binding.moviesSwipe.apply {
             setOnRefreshListener {
-                adapter.retry()
+                listAdapter.retry()
                 isRefreshing = false
             }
         }
@@ -110,31 +111,34 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
         ItemTouchHelper(object : SwipeCallback(requireContext(), 0, ItemTouchHelper.END) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
-                val movie = adapter.get(position)
-                adapter.notifyItemChanged(position)
-
-                GlobalScope.launch(IO) {
-                    val favorite = viewModel.isExist(movie?.id!!)
-                    withContext(Main) {
-                        if (favorite) {
-                            Toast.makeText(
-                                context,
-                                getString(R.string.movie_already_in_favorites),
-                                LENGTH_SHORT
-                            ).show()
-                        } else {
-                            viewModel.insert(movie)
-                            Snackbar.make(
-                                binding.moviesSnackBar, getString(R.string.movie_added), LENGTH_LONG
-                            ).setAction(getString(R.string.cancel)) {
-                                viewModel.delete(movie)
-                                adapter.notifyItemChanged(position)
-                            }.show()
-                        }
-                    }
-                }
+                val movie = listAdapter.get(position)!!
+                listAdapter.notifyItemChanged(position)
+                addMovieWithUndo(movie, position)
             }
         }).attachToRecyclerView(binding.moviesRecycler)
+    }
+
+    private fun addMovieWithUndo(movie: Movie, position: Int) {
+        GlobalScope.launch(IO) {
+            val favorite = viewModel.isExist(movie.id)
+            withContext(Main) {
+                if (favorite) {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.movie_already_in_favorites),
+                        LENGTH_SHORT
+                    ).show()
+                } else {
+                    viewModel.insert(movie)
+                    Snackbar.make(
+                        binding.moviesSnackBar, getString(R.string.movie_added), LENGTH_LONG
+                    ).setAction(getString(R.string.cancel)) {
+                        viewModel.delete(movie)
+                        listAdapter.notifyItemChanged(position)
+                    }.show()
+                }
+            }
+        }
     }
 
     private fun initToolbar() {
@@ -145,38 +149,22 @@ class HomeMoviesFragment : Fragment(R.layout.fragment_home_movies), AdapterCallb
                 TOP -> getString(R.string.top)
                 UPCOMING -> getString(R.string.upcoming)
             }
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeBtn(true)
         }
     }
 
     private fun initViewModel() {
-        when (type) {
-            POPULAR -> {
-                viewModel.popularMovies.observe(viewLifecycleOwner, {
-                    adapter.submitData(viewLifecycleOwner.lifecycle, it)
-                })
-            }
-            TOP -> {
-                viewModel.topMovies.observe(viewLifecycleOwner, {
-                    adapter.submitData(viewLifecycleOwner.lifecycle, it)
-                })
-            }
-            UPCOMING -> {
-                viewModel.upcomingMovies.observe(viewLifecycleOwner, {
-                    adapter.submitData(viewLifecycleOwner.lifecycle, it)
-                })
-            }
-        }
+        when(type) {
+            POPULAR -> viewModel.popularMovies
+            TOP -> viewModel.topMovies
+            UPCOMING -> viewModel.upcomingMovies
+        }.observe(viewLifecycleOwner, {
+            listAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        })
     }
 
     override fun showMovieInfo(movie: Movie) {
-        val bundle = bundleOf(
-            Movie::class.java.simpleName to movie
-        )
-        navController.navigate(
-            R.id.action_movies_to_movie,
-            bundle
-        )
+        val bundle = bundleOf(Movie::class.java.simpleName to movie)
+        navController.navigate(R.id.action_movies_to_movie, bundle)
     }
 }

@@ -110,14 +110,14 @@
                     android:text="@string/overview"
                     android:clickable="true"
                     android:focusable="true"
-                    app:layout_constraintBottom_toTopOf="@+id/movie_btn_add"
+                    app:layout_constraintBottom_toTopOf="@+id/movie_add_btn"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/movie_genres"
                     bind:overview="@{movie.overview}" />
 
                 <Button
-                    android:id="@+id/movie_btn_add"
+                    android:id="@+id/movie_add_btn"
                     style="@style/themeButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/guideline"
                     app:layout_constraintHorizontal_bias="0.66"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/movie_btn_add">
+                    app:layout_constraintTop_toBottomOf="@+id/movie_add_btn">
 
                     <TextView
                         android:id="@+id/movie_vote_average"
@@ -163,7 +163,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.33"
                     app:layout_constraintStart_toStartOf="@+id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/movie_btn_add">
+                    app:layout_constraintTop_toBottomOf="@+id/movie_add_btn">
 
                     <TextView
                         android:id="@+id/movie_vote_count"

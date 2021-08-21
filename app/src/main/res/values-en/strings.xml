@@ -118,7 +118,7 @@
     <string name="change_to_year">Change to year</string>
 
     <!-- dialog watchlist -->
-    <string name="dialog_sort_text">Sort list by:</string>
+    <string name="sort_text">Sort list by</string>
     <string name="sort_add_date">add date</string>
     <string name="sort_id">id</string>
     <string name="sort_title">title</string>

@@ -26,6 +26,8 @@ import com.android.moviesapp.databinding.FragmentHomeMoviesByGenreBinding
 import com.android.moviesapp.factory.ViewModelFactory
 import com.android.moviesapp.model.Movie
 import com.android.moviesapp.util.Constant
+import com.android.moviesapp.util.Expansions.Companion.setHomeBtn
+import com.android.moviesapp.util.Expansions.Companion.withLoadStateHeaderAndFooter
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import kotlinx.coroutines.Dispatchers.IO
@@ -41,7 +43,7 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
         ViewModelProvider(this, ViewModelFactory(activity?.application!!))
             .get(HomeViewModel::class.java)
     }
-    private val adapter by lazy { PagingListItemAdapter(viewModel, this) }
+    private val listAdapter by lazy { PagingListItemAdapter(viewModel, this) }
 
     private lateinit var binding: FragmentHomeMoviesByGenreBinding
     private lateinit var navController: NavController
@@ -66,7 +68,7 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
     }
 
     private fun initAdapter() {
-        adapter.addLoadStateListener {
+        listAdapter.addLoadStateListener {
             binding.apply {
                 moviesByGenreProgress.isVisible = it.source.refresh is LoadState.Loading
                 moviesByGenreSwipe.isVisible = it.source.refresh is LoadState.NotLoading
@@ -78,7 +80,7 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
     private fun initButtonRefresh() {
         binding.apply {
             moviesByGenreBtnRefresh.setOnClickListener {
-                adapter.retry()
+                listAdapter.retry()
             }
         }
     }
@@ -89,19 +91,18 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
     }
 
     private fun initRecycler() {
-        binding.moviesByGenreRecycler.also {
-            it.layoutManager = LinearLayoutManager(context, VERTICAL, false)
-            it.adapter = adapter.withLoadStateHeaderAndFooter(
-                MovieLoadStateAdapter { adapter.retry() },
-                MovieLoadStateAdapter { adapter.retry() }
+        binding.moviesByGenreRecycler.apply {
+            layoutManager = LinearLayoutManager(context, VERTICAL, false)
+            adapter = listAdapter.withLoadStateHeaderAndFooter(
+                MovieLoadStateAdapter { listAdapter.retry() }
             )
         }
     }
 
     private fun initSwipeRefresh() {
-        binding.moviesByGenreSwipe.run {
+        binding.moviesByGenreSwipe.apply {
             setOnRefreshListener {
-                adapter.retry()
+                listAdapter.retry()
                 isRefreshing = false
             }
         }
@@ -111,29 +112,32 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
         ItemTouchHelper(object : SwipeCallback(requireContext(), 0, END) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
-                val movie = adapter.get(position)
-                adapter.notifyItemChanged(position)
-
-                GlobalScope.launch(IO) {
-                    val favorite = viewModel.isExist(movie?.id!!)
-                    withContext(Main) {
-                        if (favorite) {
-                            Toast.makeText(
-                                context, getString(R.string.movie_already_in_favorites), LENGTH_SHORT
-                            ).show()
-                        } else {
-                            viewModel.insert(movie)
-                            Snackbar.make(
-                                binding.moviesByGenreSnackBar, getString(R.string.movie_added), LENGTH_LONG
-                            ).setAction(getString(R.string.cancel)) {
-                                viewModel.delete(movie)
-                                adapter.notifyItemChanged(position)
-                            }.show()
-                        }
-                    }
-                }
+                val movie = listAdapter.get(position)!!
+                listAdapter.notifyItemChanged(position)
+                addMovieWithUndo(movie, position)
             }
         }).attachToRecyclerView(binding.moviesByGenreRecycler)
+    }
+
+    private fun addMovieWithUndo(movie: Movie, position: Int) {
+        GlobalScope.launch(IO) {
+            val favorite = viewModel.isExist(movie.id)
+            withContext(Main) {
+                if (favorite) {
+                    Toast.makeText(
+                        context, getString(R.string.movie_already_in_favorites), LENGTH_SHORT
+                    ).show()
+                } else {
+                    viewModel.insert(movie)
+                    Snackbar.make(
+                        binding.moviesByGenreSnackBar, getString(R.string.movie_added), LENGTH_LONG
+                    ).setAction(getString(R.string.cancel)) {
+                        viewModel.delete(movie)
+                        listAdapter.notifyItemChanged(position)
+                    }.show()
+                }
+            }
+        }
     }
 
     private fun initToolbar() {
@@ -141,24 +145,18 @@ class HomeMoviesByGenreFragment : Fragment(R.layout.fragment_home_movies_by_genr
             setSupportActionBar(binding.moviesByGenreToolbar)
             supportActionBar?.title = getString(R.string.title_movies_by_genre) + " " +
                     Constant.getGenreById(requireContext(), genre.toInt())
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.setHomeBtn(true)
         }
     }
 
     private fun initViewModel() {
         viewModel.genreMovies.observe(viewLifecycleOwner, {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            listAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
     }
 
     override fun showMovieInfo(movie: Movie) {
-        val bundle = bundleOf(
-            Movie::class.java.simpleName to movie
-        )
-        navController.navigate(
-            R.id.action_movies_by_genre_to_movie,
-            bundle
-        )
+        val bundle = bundleOf(Movie::class.java.simpleName to movie)
+        navController.navigate(R.id.action_movies_by_genre_to_movie, bundle)
     }
 }
